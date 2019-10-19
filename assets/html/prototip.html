@@ -1,0 +1,93 @@
+<html>
+    <head>
+        <script src="../js/jquery-3.4.1.min.js"></script>
+        <script src="../js/prototip.js"></script>
+    </head>
+    <style>
+     input[type=number]::-webkit-inner-spin-button,
+     input[type=number]::-webkit-outer-spin-button {
+         -webkit-appearance: none;
+         margin: 0;
+         text-align: center;
+     }
+
+     #inputform table {
+         width: 100%;
+         font-size: 48pt;
+     }
+
+     #inputform table td {
+         width: 25%;
+     }
+
+     #inputform input {
+         font-size: 48pt;
+         margin: 0 auto;
+         width: 80%;
+     }
+
+     body {
+         font-size: 22pt;
+     }
+
+     #calculations span {
+         font-size: 28pt;
+     }
+    </style>
+
+    <body>
+        <div id="tutorial-images" ></div>
+        <ul id='tutorial-list'> </ul>
+        <form id="inputform"><table>
+            <tr>
+                <th>H.left</th>
+                <th>H.right</th>
+                <th>F.left</th>
+                <th>F.right</th>
+            </tr>
+            <tr>
+                <td><input id="hleft_1" type="number" placeholder="00" tabindex="1"></td>
+                <td><input id="hright_1" type="number" placeholder="00" tabindex="7"></td>
+                <td><input id="fleft_1" type="number" placeholder="00" tabindex="13"></td>
+                <td><input id="fright_1" type="number" placeholder="00" tabindex="19"></td>
+            </tr>
+            <tr>
+                <td><input id="hleft_2" type="number" placeholder="00" tabindex="2"></td>
+                <td><input id="hright_2" type="number" placeholder="00" tabindex="8"></td>
+                <td><input id="fleft_2" type="number" placeholder="00" tabindex="14"></td>
+                <td><input id="fright_2" type="number" placeholder="00" tabindex="20"></td>
+            </tr>
+            <tr>
+                <td><input id="hleft_3" type="number" placeholder="00" tabindex="3"></td>
+                <td><input id="hright_3" type="number" placeholder="00" tabindex="9"></td>
+                <td><input id="fleft_3" type="number" placeholder="00" tabindex="15"></td>
+                <td><input id="fright_3" type="number" placeholder="00" tabindex="21"></td>
+            </tr>
+            <tr>
+                <td><input id="hleft_4" type="number" placeholder="00" tabindex="4"></td>
+                <td><input id="hright_4" type="number" placeholder="00" tabindex="10"></td>
+                <td><input id="fleft_4" type="number" placeholder="00" tabindex="16"></td>
+                <td><input id="fright_4" type="number" placeholder="00" tabindex="22"></td>
+            </tr>
+            <tr>
+                <td><input id="hleft_5" type="number" placeholder="00" tabindex="5"></td>
+                <td><input id="hright_5" type="number" placeholder="00" tabindex="11"></td>
+                <td><input id="fleft_5" type="number" placeholder="00" tabindex="17"></td>
+                <td><input id="fright_5" type="number" placeholder="00" tabindex="23"></td>
+            </tr>
+            <tr>
+                <td><input id="hleft_6" type="number" placeholder="00" tabindex="6"></td>
+                <td><input id="hright_6" type="number" placeholder="00" tabindex="12"></td>
+                <td><input id="fleft_6" type="number" placeholder="00" tabindex="18"></td>
+                <td><input id="fright_6" type="number" placeholder="00" tabindex="24"></td>
+            </tr>
+        </table></form>
+
+        <div id="calculations" style="display: none;">
+            <p>1. Общая сумма: <span id="total_sum"></span>, среднее: <span id="total_mean"></span></p>
+            <p>2. Сумма левой половины: <span id="left_sum"></span>, сумма правой половины: <span id="right_sum"></span>, Kl/r: <span id="k_lr"></span></p>
+            <p>3. Сумма рук: <span id="hands_sum"></span>, сумма ног: <span id="foots_sum"></span>, Kh/f: <span id="k_hf"></span></p>
+            <p>4. Сумма инь: <span id="yin_sum"></span>, сумма янь: <span id="yang_sum"></span>, Ky/y: <span id="k_yy"></span></p>
+        </div>
+    </body>
+</html>

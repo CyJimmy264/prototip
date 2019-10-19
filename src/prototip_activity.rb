@@ -1,34 +1,64 @@
 require 'ruboto/widget'
 require 'ruboto/util/toast'
 
-ruboto_import_widgets :Button, :LinearLayout, :TextView
-
-# http://xkcd.com/378/
+require_relative 'jscallback.rb'
 
 class PrototipActivity
   def onCreate(bundle)
     super
-    set_title 'Domo arigato, Mr Ruboto!'
+    set_title 'Prototip'
+    setup_webview
+  end
 
-    self.content_view =
-        linear_layout :orientation => :vertical do
-          @text_view = text_view :text => 'What hath Matz wrought?', :id => 42, 
-                                 :layout => {:width => :match_parent},
-                                 :gravity => :center, :text_size => 48.0
-          button :text => 'M-x butterfly', 
-                 :layout => {:width => :match_parent},
-                 :id => 43, :on_click_listener => proc { butterfly }
-        end
-  rescue Exception
-    puts "Exception creating activity: #{$!}"
-    puts $!.backtrace.join("\n")
+  def on_create_options_menu menu
+    super
+    setup_menu menu
+    true
   end
 
   private
 
-  def butterfly
-    @text_view.text = 'What hath Matz wrought!'
-    toast 'Flipped a bit via butterfly'
+  def setup_webview
+    android::webkit::WebView.web_contents_debugging_enabled = true
+    self.content_view = Ruboto::R::layout::prototip
+    @webview = self.find_view_by_id Ruboto::R::id::webview
+    set = @webview.settings
+    set.use_wide_view_port = true
+    set.load_with_overview_mode = true
+    set.java_script_enabled = true
+    set.loads_images_automatically = true
+    set.support_zoom = true            # enable zoom
+    set.built_in_zoom_controls = true  # includes pinch gesture
+    set.display_zoom_controls = false  # do not display +/- zoom controls
+    @jsi = Java::RuCj264Prototip::Jsi.new
+    @jsi.context = self
+    @webview.add_javascript_interface @jsi, 'jsi'
+    @webview.load_url "file:///android_asset/html/prototip.html"
   end
 
+  def setup_menu menu
+    menu.add( 'Add item'               ).set_on_menu_item_click_listener proc { eval_js_add_item               ; true }
+    menu.add( 'Add item return count'  ).set_on_menu_item_click_listener proc { eval_js_add_item_return_count  ; true }
+    menu.add( 'Load image return size' ).set_on_menu_item_click_listener proc { eval_js_load_image_return_size ; true }
+    menu.add( 'Remove image'           ).set_on_menu_item_click_listener proc { eval_js_remove_image           ; true }
+  end
+
+  def eval_js_add_item
+    @webview.evaluate_javascript "add_item('#{Time.now}')", nil
+  end
+
+  def eval_js_add_item_return_count
+    @webview.evaluate_javascript "add_item('#{Time.now}')", Jscallback.new( self )
+  end
+
+  def eval_js_load_image_return_size
+    # ensure a cached image does not ruin this example
+    @webview.clear_cache true
+    @webview.evaluate_javascript "load_image_return_size()", Jscallback.new( self )
+  end
+
+  def eval_js_remove_image
+    @webview.evaluate_javascript "remove_image()", nil
+    toast RUBY_VERSION
+  end
 end
